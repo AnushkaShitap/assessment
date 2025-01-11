@@ -1,0 +1,36 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = "your-bucket-name"
+  acl = "private"
+}
+
+resource "aws_rds_instance" "db" {
+  identifier = "your-db-instance-identifier"
+  instance_class = "db.t2.micro"
+  engine = "postgres"
+  engine_version = "12.5"
+  username = "Ashitap"
+  password = "Anushka@02"
+  parameter_group_name = "default.postgres12"
+  skip_final_snapshot = true
+}
+
+resource "aws_glue_database" "database" {
+  name = "godigital"
+}
+
+resource "aws_glue_table" "table" {
+  name = "godigital1"
+  database_name = aws_glue_database.database.name
+  columns {
+    name = "column1"
+    type = "string"
+  }
+  columns {
+    name = "column2"
+    type = "string"
+  }
+}
